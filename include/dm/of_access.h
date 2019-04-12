@@ -219,6 +219,21 @@ struct device_node *of_find_node_by_prop_value(struct device_node *from,
 struct device_node *of_find_node_by_phandle(phandle handle);
 
 /**
+ * of_read_bytes() - Find and read an array of bytes from a property
+ *
+ * Search for a property in a device node and read an array of bytes from it.
+ *
+ * @np: device node from which the property is to be read
+ * @propname: name of the property to be read
+ * @buffer: buffer to read the property value into
+ * @size: number of bytes to read
+ *
+ * @return 0 on success, or a negative error-code on failure.
+ */
+int of_read_bytes(const struct device_node *np, const char *propname,
+		  u8 *buffer, int size);
+
+/**
  * of_read_u32() - Find and read a 32-bit integer from a property
  *
  * Search for a property in a device node and read a 32-bit value from

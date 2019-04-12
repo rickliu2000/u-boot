@@ -446,6 +446,27 @@ static void *of_find_property_value_of_size(const struct device_node *np,
 	return prop->value;
 }
 
+int of_read_bytes(const struct device_node *np, const char *propname,
+		  u8 *buffer, int size)
+{
+	const fdt32_t *value;
+
+	debug("%s: %s: ", __func__, propname);
+
+	if (!np)
+		return -EINVAL;
+
+	value = of_find_property_value_of_size(np, propname, size);
+	if (IS_ERR(value)) {
+		debug("(not found)\n");
+		return PTR_ERR(value);
+	}
+
+	memcpy(buffer, value, size);
+
+	return 0;
+}
+
 int of_read_u32(const struct device_node *np, const char *propname, u32 *outp)
 {
 	const __be32 *val;

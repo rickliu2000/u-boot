@@ -193,6 +193,17 @@ static inline ofnode ofnode_null(void)
 }
 
 /**
+ * ofnode_read_bytes() - Read an array of bytes from a property
+ *
+ * @node: valid node reference to read property from
+ * @propname: name of the property to read from
+ * @buffer: buffer to read the value into
+ * @size: size of @buffer
+ * @return 0 on success, or a negative error code on failure
+ */
+int ofnode_read_bytes(ofnode node, const char *propname, u8 *buffer, int size);
+
+/**
  * ofnode_read_u32() - Read a 32-bit integer from a property
  *
  * @ref:	valid node reference to read property from

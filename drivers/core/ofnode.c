@@ -15,6 +15,19 @@
 #include <linux/err.h>
 #include <linux/ioport.h>
 
+int ofnode_read_bytes(ofnode node, const char *propname, u8 *buffer, int size)
+{
+	assert(ofnode_valid(node));
+	debug("%s: %s: ", __func__, propname);
+
+	if (ofnode_is_np(node))
+		return of_read_bytes(ofnode_to_np(node), propname, buffer,
+				     size);
+
+	return fdtdec_get_byte_array(gd->fdt_blob, ofnode_to_offset(node),
+				     propname, buffer, size);
+}
+
 int ofnode_read_u32(ofnode node, const char *propname, u32 *outp)
 {
 	assert(ofnode_valid(node));

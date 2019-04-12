@@ -45,6 +45,18 @@ static inline bool dev_of_valid(struct udevice *dev)
 
 #ifndef CONFIG_DM_DEV_READ_INLINE
 /**
+ * dev_read_bytes() - read an array of bytes from a device's DT property
+ *
+ * @dev: device to read DT property from
+ * @propname: name of the property to read from
+ * @buffer: buffer to read the value into
+ * @size: size of @buffer
+ * @return 0 on success, or a negative error code on failure
+ */
+int dev_read_bytes(struct udevice *dev, const char *propname, u8 *buffer,
+		   int size);
+
+/**
  * dev_read_u32() - read a 32-bit integer from a device's DT property
  *
  * @dev:	device to read DT property from
@@ -522,6 +534,11 @@ u64 dev_translate_address(struct udevice *dev, const fdt32_t *in_addr);
 int dev_read_alias_highest_id(const char *stem);
 
 #else /* CONFIG_DM_DEV_READ_INLINE is enabled */
+static inline int dev_read_bytes(struct udevice *dev, const char *propname,
+				 u8 *buffer, int size)
+{
+	return ofnode_read_bytes(dev_ofnode(dev), propname, buffer, size);
+}
 
 static inline int dev_read_u32(struct udevice *dev,
 			       const char *propname, u32 *outp)
